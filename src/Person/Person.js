@@ -3,7 +3,10 @@ import React, { Component } from 'react'
 class Person extends Component {
   render() {
     return (
-      <h2>I'm {this.props.name}!</h2>
+      <div>
+        <h2>I'm {this.props.name}!</h2>
+        {this.props.children}
+      </div>
     )
   }
 }
