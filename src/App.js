@@ -14,29 +14,33 @@ class App extends Component {
     showPersons: true
   }
 
+
+  changeNameHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(element => element.id === id);
+
+    // const person = Object.assign({}, this.state.persons[personIndex]) // the same as spread
+    const person = { ...this.state.persons[personIndex] }
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons]; // create a new array with spread operator
+    persons[personIndex] = person; // works fine with const because of the array is pointing to the elements so variable doesn't straight change
+
+    this.setState({ persons: persons })
+  }
+
   togglePersonsHandler = () => {
     const isShown = this.state.showPersons;
     this.setState({ showPersons: !isShown })
   }
 
   deletePersonDataHandler = (personIndex) => {
-    const persons = [...this.state.persons];
-    persons.splice(personIndex, 1)
+    const persons = [...this.state.persons]; // create a new array with spread operator
+    persons.splice(personIndex, 1); // works fine with const because of the array is pointing to the elements so variable doesn't straight change
     this.setState({ persons: persons })
   }
 
   deleteAllPersonsDataHandler = () => {
     this.setState({ persons: [] })
-  }
-
-  changeNameHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: "Misha", age: 21 },
-        { name: "Andriy", age: 20 },
-        { name: event.target.value, age: 15 }
-      ]
-    })
   }
 
   render() {
@@ -45,10 +49,10 @@ class App extends Component {
     if (this.state.showPersons) {
       persons = (
         < div >
-          {this.state.persons.map( (person, index) => {
+          {this.state.persons.map((person, index) => {
             return <Person
               deletePerson={() => this.deletePersonDataHandler(index)}
-              changeNameFunc={this.changeNameHandler}
+              changeNameFunc={(event) => this.changeNameHandler(event, person.id)}
               name={person.name}
               age={person.age}
               key={person.id}
