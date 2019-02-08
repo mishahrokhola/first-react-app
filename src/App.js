@@ -36,26 +36,19 @@ class App extends Component {
   render() {
     let persons = null;
 
-    if (this.state.showPersons)
+    if (this.state.showPersons) {
       persons = (
         < div >
-          <Person
-            name={this.state.persons[0].name}
-            age={this.state.persons[0].age}
-            changeNameFunc={this.changeNameHandler}
-          />
-          <Person
-            name={this.state.persons[1].name}
-            age={this.state.persons[1].age}
-            changeNameFunc={this.changeNameHandler}
-          />
-          <Person
-            name={this.state.persons[2].name}
-            age={this.state.persons[2].age}
-            changeNameFunc={this.changeNameHandler}
-          />
+          {this.state.persons.map(person => {
+            return <Person
+              name={person.name}
+              age={person.age}
+              changeNameFunc={this.changeNameHandler}
+            />
+          })}
         </div >
       );
+    }
 
     return (
       <div className="App">
@@ -68,7 +61,7 @@ class App extends Component {
         </button>
 
         {persons}
-        
+
       </div>
     );
   }
