@@ -7,9 +7,9 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     persons: [
-      { name: "Misha", age: 21 },
-      { name: "Andriy", age: 20 },
-      { name: "Someone else", age: 15 }
+      { id: "1", name: "Misha", age: 21 },
+      { id: "2", name: "Andriy", age: 20 },
+      { id: "3", name: "Someone else", age: 15 }
     ],
     showPersons: true
   }
@@ -17,6 +17,12 @@ class App extends Component {
   togglePersonsHandler = () => {
     const isShown = this.state.showPersons;
     this.setState({ showPersons: !isShown })
+  }
+
+  deletePersonDataHandler = (personIndex) => {
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1)
+    this.setState({ persons: persons })
   }
 
   deleteAllPersonsDataHandler = () => {
@@ -39,11 +45,13 @@ class App extends Component {
     if (this.state.showPersons) {
       persons = (
         < div >
-          {this.state.persons.map(person => {
+          {this.state.persons.map( (person, index) => {
             return <Person
+              deletePerson={() => this.deletePersonDataHandler(index)}
+              changeNameFunc={this.changeNameHandler}
               name={person.name}
               age={person.age}
-              changeNameFunc={this.changeNameHandler}
+              key={person.id}
             />
           })}
         </div >
@@ -61,6 +69,13 @@ class App extends Component {
         </button>
 
         {persons}
+
+        <div className="">
+          <button
+            onClick={this.deleteAllPersonsDataHandler}>
+            Delete all Persons
+        </button>
+        </div>
 
       </div>
     );
